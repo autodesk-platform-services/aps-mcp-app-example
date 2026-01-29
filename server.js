@@ -3,13 +3,13 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMcpExpressApp } from "@modelcontextprotocol/sdk/server/express.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { registerAppResource, registerAppTool } from "@modelcontextprotocol/ext-apps/server";
-import { PORT } from "./config.js";
+import { PORT, ALLOWED_HOSTS } from "./config.js";
 import * as tools from "./tools/index.js";
 import * as resources from "./resources/index.js";
 
 const app = createMcpExpressApp({
     host: "0.0.0.0",
-    allowedHosts: ["localhost"],
+    allowedHosts: ALLOWED_HOSTS,
 });
 app.use(cors());
 app.all("/mcp", async (req, res) => {

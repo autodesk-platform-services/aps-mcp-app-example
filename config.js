@@ -14,6 +14,10 @@ if (!APS_CLIENT_ID || !APS_CLIENT_SECRET || !SSA_ID || !SSA_KEY_ID || !SSA_KEY_B
 const RESOURCE_URI = "ui://preview-design/viewer.html";
 const VIEWER_HTML_PATH = path.resolve(__dirname, "dist", "viewer.html");
 const PORT = parseInt(process.env.PORT || "3000");
+const ALLOWED_HOSTS = ["localhost"];
+if (PUBLIC_ENDPOINT_URL) {
+    ALLOWED_HOSTS.push(PUBLIC_ENDPOINT_URL);
+}
 
 export {
     APS_CLIENT_ID,
@@ -21,7 +25,7 @@ export {
     SSA_ID,
     SSA_KEY_ID,
     SSA_KEY_BASE64,
-    PUBLIC_ENDPOINT_URL,
+    ALLOWED_HOSTS,
     RESOURCE_URI,
     VIEWER_HTML_PATH,
     PORT

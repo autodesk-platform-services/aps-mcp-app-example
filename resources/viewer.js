@@ -1,9 +1,7 @@
 import fs from "node:fs";
 import { RESOURCE_MIME_TYPE } from "@modelcontextprotocol/ext-apps/server";
 import { getServiceAccountAccessToken } from "../auth.js";
-import { VIEWER_HTML_PATH, PUBLIC_ENDPOINT_URL, RESOURCE_URI } from "../config.js";
-
-// TODO: add PUBLIC_ENDPOINT_URL to CSP allowlist
+import { VIEWER_HTML_PATH, RESOURCE_URI } from "../config.js";
 
 export const viewerResource = {
     name: "viewer",
