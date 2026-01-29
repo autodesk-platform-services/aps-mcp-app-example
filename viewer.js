@@ -16,6 +16,18 @@ Autodesk.Viewing.Initializer(viewerConfig, function () {
             loadModel(viewer, urn);
         }
     };
+    viewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, async () => {
+        const ids = viewer.getSelection();
+        if (ids.length > 0) {
+            await app.updateModelContext({
+                content: [{ type: "text", text: `User selected objects with IDs: ${ids.join(", ")}` }],
+            });
+        } else {
+            await app.updateModelContext({
+                content: [{ type: "text", text: "No objects selected" }],
+            });
+        }
+    });
     app.connect();
 });
 
