@@ -1,12 +1,14 @@
 import { App } from "@modelcontextprotocol/ext-apps";
 
-const ACCESS_TOKEN = "{{ACCESS_TOKEN}}";
-
-const app = new App({ name: "Design Preview", version: "0.0.1" });
-
-Autodesk.Viewing.Initializer({ accessToken: ACCESS_TOKEN }, function () {
+const viewerConfig = {
+    accessToken: "{{ACCESS_TOKEN}}",
+    env: "AutodeskProduction2",
+    api: "streamingV2", // or streamingV2_EU if in EMEA region 
+};
+Autodesk.Viewing.Initializer(viewerConfig, function () {
     const viewer = new Autodesk.Viewing.Viewer3D(document.getElementById("viewer"));
     viewer.start();
+    const app = new App({ name: "Design Preview", version: "0.0.1" });
     app.ontoolresult = (result) => {
         console.log("Tool result received:", result);
         const urn = result.structuredContent?.urn;
