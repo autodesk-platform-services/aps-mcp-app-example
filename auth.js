@@ -1,11 +1,22 @@
-import fs from "node:fs/promises";
 import jwt from "jsonwebtoken";
-import { APS_CLIENT_ID, APS_CLIENT_SECRET, SSA_ID, SSA_KEY_ID, SSA_KEY_PATH } from "./config.js";
+import { APS_CLIENT_ID, APS_CLIENT_SECRET, SSA_ID, SSA_KEY_ID, SSA_KEY_BASE64 } from "./config.js";
 
 export async function getServiceAccountAccessToken(scopes) {
-    const privateKey = await fs.readFile(SSA_KEY_PATH, "utf-8");
+    const privateKey = decodePrivateKey(SSA_KEY_BASE64);
     const assertion = createAssertion(APS_CLIENT_ID, SSA_ID, SSA_KEY_ID, privateKey, scopes);
     return getAccessToken(APS_CLIENT_ID, APS_CLIENT_SECRET, "urn:ietf:params:oauth:grant-type:jwt-bearer", scopes, assertion);
+}
+
+function decodePrivateKey(base64Value) {
+    if (typeof base64Value !== "string" || base64Value.trim() === "") {
+        throw new Error("SSA_KEY_BASE64 is missing or empty.");
+    }
+    const normalized = base64Value.replace(/\s+/g, "");
+    const decoded = Buffer.from(normalized, "base64").toString("utf-8");
+    if (!decoded.includes("BEGIN PRIVATE KEY") && !decoded.includes("BEGIN RSA PRIVATE KEY")) {
+        throw new Error("SSA_KEY_BASE64 does not decode to a valid PEM private key.");
+    }
+    return decoded;
 }
 
 function createAssertion(clientId, serviceAccountId, serviceAccountKeyId, serviceAccountPrivateKey, scopes) {

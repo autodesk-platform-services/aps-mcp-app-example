@@ -20,7 +20,7 @@ Example MCP server for Autodesk Platform Services with support for [MCP Apps](ht
    - `APS_CLIENT_SECRET`
    - `SSA_ID`
    - `SSA_KEY_ID`
-   - `SSA_KEY_PATH` (path to your APS service account private key)
+   - `SSA_KEY_BASE64` (base64-encoded PEM private key)
    - Optional: `PORT` (default `3000`)
    - Optional: `PUBLIC_ENDPOINT_URL` (added to CSP allowlist)
 3. Build the UI bundle:
