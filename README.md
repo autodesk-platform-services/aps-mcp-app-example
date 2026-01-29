@@ -13,6 +13,14 @@ https://github.com/user-attachments/assets/76e4678d-849e-482e-8b08-a0f5e2cbdf3f
 - `resources/`: MCP UI resource for the viewer
 - `viewer.html`/`viewer.js`/`viewer.css`: UI built into `dist/viewer.html` by Vite
 
+## Live demo
+
+A live demo of this MCP server is running on https://aps-mcp-app-example.onrender.com. Here's how to try it out:
+
+- Add the following Client ID as a custom integration to your ACC hub: `AhH9QfKLgiyRA0ADroS6E63QzUFtZk8iDpytJE7sa3Ln1DAC`
+- Invite the following Secure Service Account to a folder with some content: `aws-quicksight-user@AhH9QfKLgiyRA0ADroS6E63QzUFtZk8iDpytJE7sa3Ln1DAC.adskserviceaccount.com`
+- Add the MCP server https://aps-mcp-app-example.onrender.com/mcp to an MCP client that supports MCP apps, for example, [Visual Studio Code Insiders](https://code.visualstudio.com/insiders)
+
 ## Run locally
 
 1. Install dependencies:
