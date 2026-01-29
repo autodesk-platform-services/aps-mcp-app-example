@@ -3,15 +3,7 @@ import { RESOURCE_MIME_TYPE } from "@modelcontextprotocol/ext-apps/server";
 import { getServiceAccountAccessToken } from "../auth.js";
 import { VIEWER_HTML_PATH, PUBLIC_ENDPOINT_URL, RESOURCE_URI } from "../config.js";
 
-const DOMAINS = [
-    "https://developer.api.autodesk.com",
-    "https://cdn.derivative.autodesk.com",
-    "https://fonts.autodesk.com",
-    "wss://cdn.derivative.autodesk.com", // Doesn't work??? OpenAI prefixes wss:// with https:// internally...
-];
-if (PUBLIC_ENDPOINT_URL) {
-    DOMAINS.push(PUBLIC_ENDPOINT_URL);
-}
+// TODO: add PUBLIC_ENDPOINT_URL to CSP allowlist
 
 export const viewerResource = {
     name: "viewer",
