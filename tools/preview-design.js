@@ -6,10 +6,10 @@ export const previewDesignTool = {
     name: "preview-design",
     config: {
         title: "Preview design",
-        description: "Displays a 3D preview of the specified design within an embedded viewer.",
+        description: "Displays an interactive preview of the specified design.",
         inputSchema: {
-            projectId: z.string().nonempty(),
-            designId: z.string().nonempty()
+            projectId: z.string().nonempty().describe("The ID of the project the design belongs to."),
+            designId: z.string().nonempty().describe("The ID of the design to preview.")
         },
         annotations: { readOnlyHint: true },
         _meta: {
@@ -24,7 +24,6 @@ export const previewDesignTool = {
             name: tip.data.attributes.displayName,
             urn: tip.data.relationships.derivatives.data.id
         };
-        console.log("Previewing design:", output);
         return {
             structuredContent: output,
             content: [{

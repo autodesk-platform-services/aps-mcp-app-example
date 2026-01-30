@@ -21,7 +21,6 @@ export const getProjectsTool = {
                 }))
             }))
         };
-        console.log("Accounts and projects:", output);
         return {
             structuredContent: output,
             content: [{
