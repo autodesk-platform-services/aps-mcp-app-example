@@ -7,25 +7,33 @@ import { PORT, ALLOWED_HOSTS } from "./config.js";
 import * as tools from "./tools/index.js";
 import * as resources from "./resources/index.js";
 
+function createMcpServer(options) {
+    const server = new McpServer({
+        name: "My MCP App Server",
+        version: "0.0.1",
+    });
+    for (const toolFactory of Object.values(tools)) {
+        const { name, config, callback } = toolFactory(options);
+        registerAppTool(server, name, config, callback);
+    }
+    for (const resourceFactory of Object.values(resources)) {
+        const { name, uri, config, callback } = resourceFactory(options);
+        registerAppResource(server, name, uri, config, callback);
+    }
+    return server;
+}
+
 const app = createMcpExpressApp({
     host: "0.0.0.0",
     allowedHosts: ALLOWED_HOSTS,
 });
 app.use(cors());
 app.all("/mcp", async (req, res) => {
-    const server = new McpServer({
-        name: "My MCP App Server",
-        version: "0.0.1",
-    });
-    for (const tool of Object.values(tools)) {
-        registerAppTool(server, tool.name, tool.config, tool.callback);
-    }
-    for (const resource of Object.values(resources)) {
-        registerAppResource(server, resource.name, resource.uri, resource.config, resource.callback);
-    }
-    const transport = new StreamableHTTPServerTransport({
-        sessionIdGenerator: undefined,
-    });
+    const options = {
+        derivativeFormat: req.query.format === "svf2" ? "latest" : "fallback",
+    };
+    const server = createMcpServer(options);
+    const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
     res.on("close", () => {
         transport.close().catch(() => { });
         server.close().catch(() => { });

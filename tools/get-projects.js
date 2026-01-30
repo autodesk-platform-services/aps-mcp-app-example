@@ -1,6 +1,6 @@
 import { dataManagementClient } from "./common.js";
 
-export const getProjectsTool = {
+export const getProjectsToolFactory = ({}) => ({
     name: "get-projects",
     config: {
         title: "Get projects",
@@ -17,7 +17,8 @@ export const getProjectsTool = {
                 name: hub.attributes.name,
                 projects: (projects[i].data || []).map(project => ({
                     id: project.id,
-                    name: project.attributes.name
+                    name: project.attributes.name,
+                    region: hub.attributes.region || "US",
                 }))
             }))
         };
@@ -29,4 +30,4 @@ export const getProjectsTool = {
             }]
         };
     }
-};
+});

@@ -1,5 +1,5 @@
-export { getProjectsTool } from "./get-projects.js";
-export { getProjectContentsTool } from "./get-project-contents.js";
-export { getDesignHierarchyTool } from "./get-design-hierarchy.js";
-export { getDesignPropertiesTool } from "./get-design-properties.js";
-export { previewDesignTool } from "./preview-design.js";
+export { getProjectsToolFactory } from "./get-projects.js";
+export { getProjectContentsToolFactory } from "./get-project-contents.js";
+export { getDesignHierarchyToolFactory } from "./get-design-hierarchy.js";
+export { getDesignPropertiesToolFactory } from "./get-design-properties.js";
+export { previewDesignToolFactory } from "./preview-design.js";

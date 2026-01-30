@@ -1,1 +1,1 @@
-export { viewerResource } from "./viewer.js";
+export { viewerResourceFactory } from "./viewer.js";

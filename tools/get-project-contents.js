@@ -1,7 +1,7 @@
 import z from "zod";
 import { dataManagementClient } from "./common.js";
 
-export const getProjectContentsTool = {
+export const getProjectContentsToolFactory = ({}) => ({
     name: "get-project-contents",
     config: {
         title: "Get project contents",
@@ -33,4 +33,4 @@ export const getProjectContentsTool = {
             }]
         };
     }
-};
+});

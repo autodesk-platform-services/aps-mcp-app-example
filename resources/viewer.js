@@ -1,20 +1,20 @@
-import fs from "node:fs";
 import { RESOURCE_MIME_TYPE } from "@modelcontextprotocol/ext-apps/server";
-import { VIEWER_HTML_PATH, RESOURCE_URI } from "../config.js";
+import { VIEWER_HTML } from "../config.js";
 
-export const viewerResource = {
+export const VIEWER_RESOURCE_URI = "ui://preview-design/viewer.html";
+
+export const viewerResourceFactory = ({}) => ({
     name: "viewer",
-    uri: RESOURCE_URI,
+    uri: VIEWER_RESOURCE_URI,
     config: {
         mimeType: RESOURCE_MIME_TYPE
     },
     callback: async () => {
-        const html = fs.readFileSync(VIEWER_HTML_PATH, "utf-8");
         return {
             contents: [{
-                uri: RESOURCE_URI,
+                uri: VIEWER_RESOURCE_URI,
                 mimeType: RESOURCE_MIME_TYPE,
-                text: html,
+                text: VIEWER_HTML,
                 _meta: {
                     ui: {
                         csp: {
@@ -38,4 +38,4 @@ export const viewerResource = {
             }]
         };
     }
-};
+});
