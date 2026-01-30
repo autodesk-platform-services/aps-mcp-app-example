@@ -13,6 +13,13 @@ https://github.com/user-attachments/assets/eafff7ff-5282-4a87-af8b-912273545842
 - `resources/`: MCP UI resource for the viewer
 - `viewer.html`/`viewer.js`/`viewer.css`: UI built into `dist/viewer.html` by Vite
 
+## Features
+
+- Supports previewing designs in different regions
+- Supports switching between SVF(1) and SVF2
+   - In order to load SVF2, connect to the MCP server with query parameter `format=svf2`, e.g., https://aps-mcp-app-example.onrender.com/mcp?format=svf2
+- IDs of elements selected in the viewer are reported back to the LLM for further discussions (e.g., _Tell me more about this element_)
+
 ## Live demo
 
 A live demo of this MCP server is running on https://aps-mcp-app-example.onrender.com. Here's how to try it out:
@@ -20,8 +27,6 @@ A live demo of this MCP server is running on https://aps-mcp-app-example.onrende
 - Provision access to your ACC hub for the following client ID: `AhH9QfKLgiyRA0ADroS6E63QzUFtZk8iDpytJE7sa3Ln1DAC`
 - Invite the following Secure Service Account to a folder with some content: `aws-quicksight-user@AhH9QfKLgiyRA0ADroS6E63QzUFtZk8iDpytJE7sa3Ln1DAC.adskserviceaccount.com`
 - Add the MCP server https://aps-mcp-app-example.onrender.com/mcp to an MCP client that supports MCP apps, for example, [Visual Studio Code Insiders](https://code.visualstudio.com/insiders)
-
-> Note: by default the viewer will load content using the `fallback` (SVF1) format. In order to switch to `latest` (SVF2), add `format=svf2` query to the MCP server address: https://aps-mcp-app-example.onrender.com/mcp?format=svf2.
 
 ## Run locally
 
