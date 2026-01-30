@@ -4,6 +4,40 @@ Example MCP server for Autodesk Platform Services with support for [MCP Apps](ht
 
 https://github.com/user-attachments/assets/eafff7ff-5282-4a87-af8b-912273545842
 
+## Features
+
+- Authentication using [Secure Service Account API](https://aps.autodesk.com/en/docs/ssa/v1/developers_guide/overview/)
+- Support for UK+4 regions (automatically detected from ACC hubs)
+- Support for switching between SVF(1) and SVF2
+   - SVF2 used by default
+   - In order to load SVF(1), add `format=svf` query parameter to the MCP server URL, e.g., https://aps-mcp-app-example.onrender.com/mcp?format=svf
+- IDs of elements selected in the viewer reported back to the LLM for further discussions (e.g., _Tell me more about this element_)
+
+## Live demo
+
+A live demo of this MCP server is running on https://aps-mcp-app-example.onrender.com. Here's how to try it out:
+
+- Get an MCP client that supports MCP apps, for example, [Visual Studio Code Insiders](https://code.visualstudio.com/insiders)
+- Register the MCP server URL: https://aps-mcp-app-example.onrender.com/mcp
+- Start asking questions such as
+   - _What projects do I have access to?_
+   - _Are there any Revit designs?_
+   - _Show me the Snowdon Architecture design_
+
+If you'd like to test the MCP server with your own data, you can do so by following the steps below. **Be careful though!** This implementation uses a single Secure Service Account for everyone, meaning that whatever data you give it access to will be visible to all the other users of this live demo:
+
+- Provision access to your ACC hub for the following client ID:
+
+   ```
+   AhH9QfKLgiyRA0ADroS6E63QzUFtZk8iDpytJE7sa3Ln1DAC
+   ```
+
+- Invite the following Secure Service Account to a folder with some content:
+
+   ```
+   aws-quicksight-user@AhH9QfKLgiyRA0ADroS6E63QzUFtZk8iDpytJE7sa3Ln1DAC.adskserviceaccount.com
+   ```
+
 ## What’s inside
 
 - `server.js`: Express app with an MCP server using Streamable HTTP transport
@@ -12,29 +46,6 @@ https://github.com/user-attachments/assets/eafff7ff-5282-4a87-af8b-912273545842
 - `tools/`: MCP tools for APS projects/designs
 - `resources/`: MCP resource for the viewer
 - `ui/`: Viewer UI built into `dist/viewer.html` by Vite
-
-## Features
-
-- Supports previewing designs in different regions
-- Supports switching between SVF(1) and SVF2
-   - In order to load SVF2, connect to the MCP server with query parameter `format=svf2`, e.g., https://aps-mcp-app-example.onrender.com/mcp?format=svf2
-- IDs of elements selected in the viewer are reported back to the LLM for further discussions (e.g., _Tell me more about this element_)
-
-## Live demo
-
-A live demo of this MCP server is running on https://aps-mcp-app-example.onrender.com. Here's how to try it out:
-
-- Get an MCP client that supports MCP apps, for example, [Visual Studio Code Insiders](https://code.visualstudio.com/insiders)
-- Register the MCP server https://aps-mcp-app-example.onrender.com/mcp in your client
-- Start asking questions such as
-   - _What projects do I have access to?_
-   - _Are there any Revit designs?_
-   - _Show me the Snowdon Architecture design_
-
-If you'd like to test the MCP server with your own data, you can do so by following the steps below. **Be careful though!** This implementation uses a single Secure Service Account for everyone, meaning that whatever data you give it access to will be visible to all the other users of this live demo:
-
-- Provision access to your ACC hub for the following client ID: `AhH9QfKLgiyRA0ADroS6E63QzUFtZk8iDpytJE7sa3Ln1DAC`
-- Invite the following Secure Service Account to a folder with some content: `aws-quicksight-user@AhH9QfKLgiyRA0ADroS6E63QzUFtZk8iDpytJE7sa3Ln1DAC.adskserviceaccount.com`
 
 ## Run locally
 

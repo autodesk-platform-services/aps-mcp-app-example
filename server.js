@@ -30,7 +30,7 @@ const app = createMcpExpressApp({
 app.use(cors());
 app.all("/mcp", async (req, res) => {
     const options = {
-        derivativeFormat: req.query.format === "svf2" ? "latest" : "fallback",
+        derivativeFormat: req.query.format === "svf" ? "fallback" : "latest",
     };
     const server = createMcpServer(options);
     const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
