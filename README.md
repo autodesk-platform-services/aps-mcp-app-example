@@ -33,6 +33,8 @@ A live demo of this MCP server is running on https://aps-mcp-app-example.onrende
    - `SSA_KEY_BASE64` (base64-encoded PEM private key)
    - Optional: `PORT` (default `3000`)
    - Optional: `PUBLIC_ENDPOINT_URL` (added to CSP allowlist)
+   - Optional: `APS_REGION`
+   - Optional: `DERIVATIVE_FORMAT` (`fallback` for SVF1 or `latest` for SVF2)
 3. Build the UI bundle:
    `npm run build`
 4. Start the server:

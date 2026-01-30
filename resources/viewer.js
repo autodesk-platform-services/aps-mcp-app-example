@@ -1,6 +1,5 @@
 import fs from "node:fs";
 import { RESOURCE_MIME_TYPE } from "@modelcontextprotocol/ext-apps/server";
-import { getServiceAccountAccessToken } from "../auth.js";
 import { VIEWER_HTML_PATH, RESOURCE_URI } from "../config.js";
 
 export const viewerResource = {
@@ -10,13 +9,12 @@ export const viewerResource = {
         mimeType: RESOURCE_MIME_TYPE
     },
     callback: async () => {
-        const credentials = await getServiceAccountAccessToken(["viewables:read"]);
         const html = fs.readFileSync(VIEWER_HTML_PATH, "utf-8");
         return {
             contents: [{
                 uri: RESOURCE_URI,
                 mimeType: RESOURCE_MIME_TYPE,
-                text: html.replace("{{ACCESS_TOKEN}}", credentials.access_token),
+                text: html,
                 _meta: {
                     ui: {
                         csp: {
