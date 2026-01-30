@@ -24,9 +24,17 @@ https://github.com/user-attachments/assets/eafff7ff-5282-4a87-af8b-912273545842
 
 A live demo of this MCP server is running on https://aps-mcp-app-example.onrender.com. Here's how to try it out:
 
+- Get an MCP client that supports MCP apps, for example, [Visual Studio Code Insiders](https://code.visualstudio.com/insiders)
+- Register the MCP server https://aps-mcp-app-example.onrender.com/mcp in your client
+- Start asking questions such as
+   - _What projects do I have access to?_
+   - _Are there any Revit designs?_
+   - _Show me the Snowdon Architecture design_
+
+If you'd like to test the MCP server with your own data, you can do so by following the steps below. **Be careful though!** This implementation uses a single Secure Service Account for everyone, meaning that whatever data you give it access to will be visible to all the other users of this live demo:
+
 - Provision access to your ACC hub for the following client ID: `AhH9QfKLgiyRA0ADroS6E63QzUFtZk8iDpytJE7sa3Ln1DAC`
 - Invite the following Secure Service Account to a folder with some content: `aws-quicksight-user@AhH9QfKLgiyRA0ADroS6E63QzUFtZk8iDpytJE7sa3Ln1DAC.adskserviceaccount.com`
-- Add the MCP server https://aps-mcp-app-example.onrender.com/mcp to an MCP client that supports MCP apps, for example, [Visual Studio Code Insiders](https://code.visualstudio.com/insiders)
 
 ## Run locally
 
