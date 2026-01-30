@@ -10,8 +10,8 @@ https://github.com/user-attachments/assets/eafff7ff-5282-4a87-af8b-912273545842
 - `auth.js`: Utils for authenticating the access to APS using Secure Service Accounts
 - `config.js`: Collecting configuration inputs from environment variables
 - `tools/`: MCP tools for APS projects/designs
-- `resources/`: MCP UI resource for the viewer
-- `viewer.html`/`viewer.js`/`viewer.css`: UI built into `dist/viewer.html` by Vite
+- `resources/`: MCP resource for the viewer
+- `ui/`: Viewer UI built into `dist/viewer.html` by Vite
 
 ## Features
 

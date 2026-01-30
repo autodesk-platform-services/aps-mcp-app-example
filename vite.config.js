@@ -2,13 +2,13 @@ import { defineConfig } from "vite";
 import { viteSingleFile } from "vite-plugin-singlefile";
 
 export default defineConfig({
+    root: "./ui",
     plugins: [viteSingleFile()],
     build: {
-        sourcemap: "inline",
         rollupOptions: {
-            input: "./viewer.html",
+            input: "./ui/viewer.html",
         },
-        outDir: "./dist",
+        outDir: "../dist",
         emptyOutDir: false,
     },
 });
