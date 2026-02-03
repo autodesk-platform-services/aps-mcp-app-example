@@ -1,5 +1,5 @@
 import { RESOURCE_MIME_TYPE } from "@modelcontextprotocol/ext-apps/server";
-import { VIEWER_HTML } from "../config.js";
+import { VIEWER_HTML, PUBLIC_ENDPOINT_URL } from "../config.js";
 
 export const VIEWER_RESOURCE_URI = "ui://preview-design/viewer.html";
 
@@ -32,7 +32,8 @@ export const viewerResourceFactory = ({}) => ({
                                 "wss://cdn.derivative.autodesk.com",
                             ],
                             frameDomains: [], // Origins for nested iframes
-                        }
+                        },
+                        domain: PUBLIC_ENDPOINT_URL ? `https://${PUBLIC_ENDPOINT_URL}` : null,
                     },
                 },
             }]

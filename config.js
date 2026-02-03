@@ -15,7 +15,8 @@ if (!APS_CLIENT_ID || !APS_CLIENT_SECRET || !SSA_ID || !SSA_KEY_ID || !SSA_KEY_B
 const VIEWER_HTML = fs.readFileSync(path.resolve(__dirname, "dist", "viewer.html"), { encoding: "utf-8" });
 const PORT = parseInt(process.env.PORT || "3000");
 const ALLOWED_HOSTS = ["localhost"];
-if (process.env.PUBLIC_ENDPOINT_URL) {
+const PUBLIC_ENDPOINT_URL = process.env.PUBLIC_ENDPOINT_URL;
+if (PUBLIC_ENDPOINT_URL) {
     ALLOWED_HOSTS.push(process.env.PUBLIC_ENDPOINT_URL);
 }
 
@@ -27,5 +28,6 @@ export {
     SSA_KEY_BASE64,
     ALLOWED_HOSTS,
     VIEWER_HTML,
+    PUBLIC_ENDPOINT_URL,
     PORT
 }
