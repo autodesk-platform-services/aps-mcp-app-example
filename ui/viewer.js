@@ -10,6 +10,7 @@ app.ontoolresult = (result) => {
     }
 };
 app.connect();
+app.requestDisplayMode({ mode: "pip" });
 
 let viewerInitializedPromise = null;
 
