@@ -17,12 +17,6 @@ https://github.com/user-attachments/assets/eafff7ff-5282-4a87-af8b-912273545842
 
 A live demo of this MCP server is running on https://aps-mcp-app-example.onrender.com. Here's how to try it out:
 
-> [!TIP]
-> If you're using Visual Studio Code, you can easily install the MCP server usign these links:
->
-> - <a href="vscode:mcp/install?%7B%22name%22%3A%22APS%20MCP%20Server%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Faps-mcp-app-example.onrender.com%2Fmcp%22%7D">Install to Visual Studio Code</a>
-> - <a href="vscode-insiders:mcp/install?%7B%22name%22%3A%22APS%20MCP%20Server%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Faps-mcp-app-example.onrender.com%2Fmcp%22%7D">Install to Visual Studio Code Insiders</a>
-
 - Get an MCP client that [supports MCP apps](https://modelcontextprotocol.io/docs/extensions/apps#client-support)
 - Register the MCP server URL: `https://aps-mcp-app-example.onrender.com/mcp`
 - Start asking questions such as
