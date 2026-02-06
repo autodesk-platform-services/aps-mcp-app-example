@@ -9,8 +9,8 @@ https://github.com/user-attachments/assets/eafff7ff-5282-4a87-af8b-912273545842
 - Authentication using [Secure Service Account API](https://aps.autodesk.com/en/docs/ssa/v1/developers_guide/overview/)
 - Support for UK+4 regions (automatically detected from ACC hubs)
 - Support for switching between SVF(1) and SVF2
-   - SVF2 used by default
-   - In order to load SVF(1), add `format=svf` query parameter to the MCP server URL, e.g., https://aps-mcp-app-example.onrender.com/mcp?format=svf
+  - SVF2 used by default
+  - In order to load SVF(1), add `format=svf` query parameter to the MCP server URL, e.g., https://aps-mcp-app-example.onrender.com/mcp?format=svf
 - IDs of elements selected in the viewer reported back to the LLM for further discussions (e.g., _Tell me more about this element_)
 
 ## Live demo
@@ -20,15 +20,17 @@ A live demo of this MCP server is running on https://aps-mcp-app-example.onrende
 > [!TIP]
 > If you're using Visual Studio Code, you can easily install the MCP server usign these links:
 >
-> - [Install to Visual Studio Code](vscode:mcp/install?%7B%22name%22%3A%22APS%20MCP%20Server%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Faps-mcp-app-example.onrender.com%2Fmcp%22%7D)
-> - [Install to Visual Studio Code Insiders](vscode-insiders:mcp/install?%7B%22name%22%3A%22APS%20MCP%20Server%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Faps-mcp-app-example.onrender.com%2Fmcp%22%7D)
+> - <a href="vscode:mcp/install?%7B%22name%22%3A%22APS%20MCP%20Server%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Faps-mcp-app-example.onrender.com%2Fmcp%22%7D">Install to Visual Studio Code</a>
+> - <a href="vscode-insiders:mcp/install?%7B%22name%22%3A%22APS%20MCP%20Server%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Faps-mcp-app-example.onrender.com%2Fmcp%22%7D">Install to Visual Studio Code Insiders</a>
 
-- Get an MCP client that supports MCP apps, for example, [Visual Studio Code Insiders](https://code.visualstudio.com/insiders)
-- Register the MCP server URL: https://aps-mcp-app-example.onrender.com/mcp
+- Get an MCP client that [supports MCP apps](https://modelcontextprotocol.io/docs/extensions/apps#client-support)
+- Register the MCP server URL: `https://aps-mcp-app-example.onrender.com/mcp`
 - Start asking questions such as
-   - _What projects do I have access to?_
-   - _Are there any Revit designs?_
-   - _Show me the Snowdon Architecture design_
+  - _What projects do I have access to?_
+  - _Are there any Revit designs?_
+  - _Show me the Snowdon Architecture design_
+
+### Adding access to additional projects
 
 If you'd like to test the MCP server with your own data, you can do so by following the steps below. **Be careful though!** This implementation uses a single Secure Service Account for everyone, meaning that whatever data you give it access to will be visible to all the other users of this live demo:
 
