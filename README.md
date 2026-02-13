@@ -10,8 +10,19 @@ https://github.com/user-attachments/assets/13b2bf54-9ff6-4ca5-a56c-227b4aed83ca
 - Support for UK+4 regions (automatically detected from ACC hubs)
 - Support for switching between SVF(1) and SVF2 viewing formats
   - SVF2 used by default
-  - In order to load SVF(1), add `format=svf` query parameter to the MCP server URL, e.g., http://localhost:3000/mcp?format=svf
+  - In order to load SVF(1), add `format=svf` query parameter to the MCP server URL, e.g., https://aps-mcp-app-example.autodesk.io/mcp?format=svf
 - IDs of elements selected in the viewer reported back to the LLM for further discussions (e.g., _Tell me more about this element_)
+
+## Live demo
+
+A live demo of this MCP server is running on https://aps-mcp-app-example.autodesk.io, with a preconfigured Secure Service Account with access to a couple of design files. Here's how to try it out:
+
+- Get an MCP client that [supports MCP apps](https://modelcontextprotocol.io/docs/extensions/apps#client-support)
+- Register the MCP server URL: `https://aps-mcp-app-example.autodesk.io/mcp`
+- Start asking questions such as
+  - _What projects do I have access to?_
+  - _Are there any Revit designs?_
+  - _Show me the HVAC design_
 
 ## What’s inside
 
