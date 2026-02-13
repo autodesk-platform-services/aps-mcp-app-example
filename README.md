@@ -2,7 +2,7 @@
 
 Example MCP server for Autodesk Platform Services with support for [MCP Apps](https://modelcontextprotocol.github.io/ext-apps/api/index.html). It exposes tools for browsing projects and designs in Autodesk Construction Cloud, and a UI resource providing interactive preview of selected designs using APS Viewer.
 
-https://github.com/user-attachments/assets/eafff7ff-5282-4a87-af8b-912273545842
+https://github.com/user-attachments/assets/13b2bf54-9ff6-4ca5-a56c-227b4aed83ca
 
 ## Features
 
