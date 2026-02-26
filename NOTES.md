@@ -2,14 +2,18 @@
 
 ## Login: URL Mode Elicitation or Tool?
 
-The MCP specification includes [URL mode elicitation](https://modelcontextprotocol.io/specification/2025-11-25/client/elicitation#url-mode-elicitation-requests) which says:
+The MCP spec includes [URL mode elicitation](https://modelcontextprotocol.io/specification/2025-11-25/client/elicitation#url-mode-elicitation-requests) which says:
 
 > [!IMPORTANT]
 > URL mode elicitation is not for authorizing the MCP client’s access to the MCP server (that’s handled by MCP authorization). Instead, it’s used when the MCP server needs to obtain sensitive information or third-party authorization on behalf of the user. The MCP client’s bearer token remains unchanged. The client’s only responsibility is to provide the user with context about the elicitation URL the server wants them to open.
 
-This sounds like a good fit for our case as we don't worry about the auth between MCP client and MCP server (customers could use their own IdP, or no auth at all). So we could potentially use this feature to ask the user to visit the authentication URL when needed.
+This sounds like a good fit for our case as we don't worry about the auth between MCP client and MCP server (customers could use their own IdP, or no auth at all). The TypeScript SDK includes an example of how this feature could be used for 3rd party auth, see [elicitationUrlExample.ts](https://github.com/modelcontextprotocol/typescript-sdk/blob/v1.x/src/examples/server/elicitationUrlExample.ts#L71-L113).
 
-Unfortunately, the URL mode elicitation doesn't seem to be very well supported yet. When trying it with VSCode GitHub Copilot, I get the `Client does not support url elicitation.` error... so for now we may need to get the authorization URL to users in a different way.
+Unfortunately, the URL mode elicitation doesn't seem to be widely supported yet. When trying it with VSCode GitHub Copilot, I get the following error:
+
+`Client does not support url elicitation.`
+
+So for now we may need to get the authorization URL to users in a different way, e.g., by throwing an exception from tools when the user is not authenticated.
 
 ## Login: When?
 
