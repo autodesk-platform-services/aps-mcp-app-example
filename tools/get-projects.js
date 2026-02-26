@@ -9,7 +9,7 @@ export const register = (server) => registerAppTool(server, "get-projects", {
     _meta: {},
 }, async (extra) => {
     const dataManagementClient = new DataManagementClient();
-    const accessToken = getAccessToken(extra.sessionId);
+    const accessToken = await getAccessToken(extra.sessionId);
     const hubs = await dataManagementClient.getHubs({ accessToken });
     const projects = await Promise.all((hubs.data || []).map(hub => dataManagementClient.getHubProjects(hub.id, { accessToken })));
     const output = {

@@ -15,7 +15,7 @@ export const register = (server) => registerAppTool(server, "get-project-content
     _meta: {},
 }, async ({ accountId, projectId, folderId }, extra) => {
     const dataManagementClient = new DataManagementClient();
-    const accessToken = getAccessToken(extra.sessionId);
+    const accessToken = await getAccessToken(extra.sessionId);
     const { data } = folderId
         ? await dataManagementClient.getFolderContents(projectId, folderId, { accessToken })
         : await dataManagementClient.getProjectTopFolders(accountId, projectId, { accessToken });

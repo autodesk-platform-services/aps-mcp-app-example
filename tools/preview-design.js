@@ -20,7 +20,7 @@ export const register = (server) => registerAppTool(server, "preview-design", {
     },
 }, async ({ projectId, designId, region = "US" }, extra) => {
     const dataManagementClient = new DataManagementClient();
-    const accessToken = getAccessToken(extra.sessionId);
+    const accessToken = await getAccessToken(extra.sessionId);
     const tip = await dataManagementClient.getItemTip(projectId, designId, { accessToken });
     const output = {
         name: tip.data.attributes.displayName,

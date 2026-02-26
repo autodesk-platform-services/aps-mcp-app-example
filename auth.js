@@ -3,13 +3,27 @@ import { APS_CLIENT_ID, APS_CLIENT_SECRET, APS_CALLBACK_URL } from "./config.js"
 
 const _credentials = new Map();
 
-export function getAccessToken(sessionId) {
+export async function getAccessToken(sessionId) {
     if (!sessionId) {
         throw new Error("Session ID is required to get access token");
     }
-    const credentials = _credentials.get(sessionId);
+    let credentials = _credentials.get(sessionId);
     if (!credentials) {
         throw new Error(`User not authenticated. Please [login](${generateAuthorizationUrl(sessionId)}) with your Autodesk account to continue.`);
+    }
+    if (Date.now() > credentials.expires_at) {
+        try {
+            const authenticationClient = new AuthenticationClient();
+            const newCredentials = await authenticationClient.refreshToken(credentials.refresh_token, APS_CLIENT_ID, {
+                clientSecret: APS_CLIENT_SECRET,
+            });
+            credentials.access_token = newCredentials.access_token;
+            credentials.refresh_token = newCredentials.refresh_token;
+            credentials.expires_at = newCredentials.expires_at;
+        } catch (err) {
+            _credentials.delete(sessionId);
+            throw new Error(`Failed to refresh access token. Please [login](${generateAuthorizationUrl(sessionId)}) again.`);
+        }
     }
     return credentials.access_token;
 }

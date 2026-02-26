@@ -18,7 +18,7 @@ export const register = (server) => registerAppTool(server, "get-design-hierarch
 }, async ({ projectId, designId, region = "US", objectId = undefined }, extra) => {
     const dataManagementClient = new DataManagementClient();
     const modelDerivativeClient = new ModelDerivativeClient();
-    const accessToken = getAccessToken(extra.sessionId);
+    const accessToken = await getAccessToken(extra.sessionId);
     const tip = await dataManagementClient.getItemTip(projectId, designId, { accessToken });
     const urn = tip.data.relationships.derivatives.data.id;
     const views = await modelDerivativeClient.getModelViews(urn, { accessToken });

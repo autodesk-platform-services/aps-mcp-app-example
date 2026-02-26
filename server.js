@@ -23,37 +23,35 @@ const app = createMcpExpressApp({
     host: "0.0.0.0",
     allowedHosts: ALLOWED_HOSTS,
 });
-
 app.use(cors({
     exposedHeaders: ["WWW-Authenticate", "Mcp-Session-Id", "Last-Event-Id", "Mcp-Protocol-Version"],
     origin: "*", // WARNING: This allows all origins to access the MCP server. In production, you should restrict this to specific origins.
 }));
 app.get("/auth/callback", callbackHandler);
 
-// Map to store transports by session ID
-const transports = new Map();
+const _transports = new Map(); // Map to store transports by session ID
 
 app.all("/mcp", async (req, res) => {
     const sessionId = req.headers["mcp-session-id"];
     try {
         let transport;
-        if (sessionId && transports.has(sessionId)) {
+        if (sessionId && _transports.has(sessionId)) {
             // Existing session - use the associated transport
-            transport = transports.get(sessionId);
+            transport = _transports.get(sessionId);
         } else if (!sessionId && isInitializeRequest(req.body)) {
             // New session initialization - create a new transport and associate it with the new session ID
             transport = new StreamableHTTPServerTransport({
                 sessionIdGenerator: () => uuidv4(),
                 onsessioninitialized: sessionId => {
                     console.debug(`Session initialized with ID: ${sessionId}`);
-                    transports.set(sessionId, transport);
+                    _transports.set(sessionId, transport);
                 },
             });
             transport.onclose = () => {
                 const { sessionId } = transport;
-                if (sessionId && transports.has(sessionId)) {
+                if (sessionId && _transports.has(sessionId)) {
                     console.debug(`Transport closed for session ${sessionId}, removing from transports map`);
-                    transports.delete(sessionId);
+                    _transports.delete(sessionId);
                 }
             };
             const server = createMcpServer();
