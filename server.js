@@ -1,25 +1,21 @@
 import cors from "cors";
+import { v4 as uuidv4 } from "uuid";
+import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMcpExpressApp } from "@modelcontextprotocol/sdk/server/express.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
-import { registerAppResource, registerAppTool } from "@modelcontextprotocol/ext-apps/server";
+import { callbackHandler } from "./auth.js";
 import { PORT, ALLOWED_HOSTS } from "./config.js";
 import * as tools from "./tools/index.js";
 import * as resources from "./resources/index.js";
 
-function createMcpServer(options) {
+function createMcpServer() {
     const server = new McpServer({
         name: "My MCP App Server",
         version: "0.0.1",
     });
-    for (const toolFactory of Object.values(tools)) {
-        const { name, config, callback } = toolFactory(options);
-        registerAppTool(server, name, config, callback);
-    }
-    for (const resourceFactory of Object.values(resources)) {
-        const { name, uri, config, callback } = resourceFactory(options);
-        registerAppResource(server, name, uri, config, callback);
-    }
+    Object.values(tools).forEach(register => register(server));
+    Object.values(resources).forEach(register => register(server));
     return server;
 }
 
@@ -27,31 +23,64 @@ const app = createMcpExpressApp({
     host: "0.0.0.0",
     allowedHosts: ALLOWED_HOSTS,
 });
-app.use(cors());
-app.all("/mcp", async (req, res) => {
-    const options = {
-        derivativeFormat: req.query.format === "svf" ? "fallback" : "latest",
-    };
-    const server = createMcpServer(options);
-    const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
-    res.on("close", () => {
-        transport.close().catch(() => { });
-        server.close().catch(() => { });
-    });
 
+app.use(cors({
+    exposedHeaders: ["WWW-Authenticate", "Mcp-Session-Id", "Last-Event-Id", "Mcp-Protocol-Version"],
+    origin: "*", // WARNING: This allows all origins to access the MCP server. In production, you should restrict this to specific origins.
+}));
+app.get("/auth/callback", callbackHandler);
+
+// Map to store transports by session ID
+const transports = new Map();
+
+app.all("/mcp", async (req, res) => {
+    const sessionId = req.headers["mcp-session-id"];
     try {
-        await server.connect(transport);
+        let transport;
+        if (sessionId && transports.has(sessionId)) {
+            transport = transports.get(sessionId);
+        } else if (!sessionId && isInitializeRequest(req.body)) {
+            transport = new StreamableHTTPServerTransport({
+                sessionIdGenerator: () => uuidv4(),
+                // eventStore, // Enable resumability // do we need this?
+                onsessioninitialized: sessionId => {
+                    console.debug(`Session initialized with ID: ${sessionId}`);
+                    transports.set(sessionId, transport);
+                }
+            });
+
+            transport.onclose = () => {
+                const sid = transport.sessionId;
+                if (sid && transports.has(sid)) {
+                    console.debug(`Transport closed for session ${sid}, removing from transports map`);
+                    transports.delete(sid);
+                }
+            };
+
+            const server = createMcpServer();
+            await server.connect(transport);
+        } else {
+            res.status(400).json({
+                jsonrpc: "2.0",
+                error: {
+                    code: -32000,
+                    message: "Bad Request: No valid session ID provided"
+                },
+                id: null
+            });
+            return;
+        }
         await transport.handleRequest(req, res, req.body);
     } catch (error) {
-        console.error("MCP error:", error);
+        console.error("Error handling MCP request:", error);
         if (!res.headersSent) {
             res.status(500).json({
                 jsonrpc: "2.0",
                 error: {
                     code: -32603,
-                    message: "Internal server error",
+                    message: "Internal server error"
                 },
-                id: null,
+                id: null
             });
         }
     }

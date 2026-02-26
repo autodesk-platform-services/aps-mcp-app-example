@@ -6,9 +6,9 @@ import dotenv from "dotenv";
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, ".env") });
-const { APS_CLIENT_ID, APS_CLIENT_SECRET, SSA_ID, SSA_KEY_ID, SSA_KEY_BASE64 } = process.env;
-if (!APS_CLIENT_ID || !APS_CLIENT_SECRET || !SSA_ID || !SSA_KEY_ID || !SSA_KEY_BASE64) {
-    console.error("Missing one or more required environment variables: APS_CLIENT_ID, APS_CLIENT_SECRET, SSA_ID, SSA_KEY_ID, SSA_KEY_BASE64");
+const { APS_CLIENT_ID, APS_CLIENT_SECRET, APS_CALLBACK_URL } = process.env;
+if (!APS_CLIENT_ID || !APS_CLIENT_SECRET || !APS_CALLBACK_URL) {
+    console.error("Missing one or more required environment variables: APS_CLIENT_ID, APS_CLIENT_SECRET, APS_CALLBACK_URL");
     process.exit(1);
 }
 
@@ -23,9 +23,7 @@ if (PUBLIC_ENDPOINT_URL) {
 export {
     APS_CLIENT_ID,
     APS_CLIENT_SECRET,
-    SSA_ID,
-    SSA_KEY_ID,
-    SSA_KEY_BASE64,
+    APS_CALLBACK_URL,
     ALLOWED_HOSTS,
     VIEWER_HTML,
     PUBLIC_ENDPOINT_URL,

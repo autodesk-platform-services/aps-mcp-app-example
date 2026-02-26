@@ -1,1 +1,1 @@
-export { viewerResourceFactory } from "./viewer.js";
+export { register as registerViewerResource } from "./viewer.js";
