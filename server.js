@@ -38,25 +38,24 @@ app.all("/mcp", async (req, res) => {
     try {
         let transport;
         if (sessionId && transports.has(sessionId)) {
+            // Existing session - use the associated transport
             transport = transports.get(sessionId);
         } else if (!sessionId && isInitializeRequest(req.body)) {
+            // New session initialization - create a new transport and associate it with the new session ID
             transport = new StreamableHTTPServerTransport({
                 sessionIdGenerator: () => uuidv4(),
-                // eventStore, // Enable resumability // do we need this?
                 onsessioninitialized: sessionId => {
                     console.debug(`Session initialized with ID: ${sessionId}`);
                     transports.set(sessionId, transport);
-                }
+                },
             });
-
             transport.onclose = () => {
-                const sid = transport.sessionId;
-                if (sid && transports.has(sid)) {
-                    console.debug(`Transport closed for session ${sid}, removing from transports map`);
-                    transports.delete(sid);
+                const { sessionId } = transport;
+                if (sessionId && transports.has(sessionId)) {
+                    console.debug(`Transport closed for session ${sessionId}, removing from transports map`);
+                    transports.delete(sessionId);
                 }
             };
-
             const server = createMcpServer();
             await server.connect(transport);
         } else {
@@ -70,6 +69,7 @@ app.all("/mcp", async (req, res) => {
             });
             return;
         }
+
         await transport.handleRequest(req, res, req.body);
     } catch (error) {
         console.error("Error handling MCP request:", error);
