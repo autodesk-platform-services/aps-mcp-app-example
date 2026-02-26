@@ -4,6 +4,42 @@ Example MCP server for Autodesk Platform Services.
 
 https://github.com/user-attachments/assets/13b2bf54-9ff6-4ca5-a56c-227b4aed83ca
 
+## Authentication
+
+There is no authentication between the MCP client and the MCP server. Instead, the MCP server uses APS 3-legged OAuth to authenticate the user directly:
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant MCP Client as MCP Client<br/>(e.g., VS Code Copilot)
+    participant MCP Server
+    participant APS Auth as APS Auth Server
+    participant APS API as APS Data Management API
+
+    User->>MCP Client: Ask ACC-related question
+    MCP Client->>MCP Server: Call tool
+    MCP Server->>MCP Server: Check OAuth credentials for user's session
+    Note right of MCP Server: Credentials missing
+    MCP Server-->>MCP Client: Error with APS authorization URL
+    MCP Client-->>User: Display login link
+
+    User->>APS Auth: Click link, authenticate & consent (data:read)
+    APS Auth->>MCP Server: Redirect to /auth/callback with code
+    MCP Server->>APS Auth: Exchange code for access token
+    APS Auth-->>MCP Server: Access token
+    MCP Server->>MCP Server: Store token for user's session
+    MCP Server-->>User: Authentication successful
+
+    User->>MCP Client: Ask ACC-related question again
+    MCP Client->>MCP Server: Call tool
+    MCP Server->>MCP Server: Check OAuth credentials for user's session
+    Note right of MCP Server: Credentials available
+    MCP Server->>APS API: Call API (with access token)
+    APS API-->>MCP Server: API response
+    MCP Server-->>MCP Client: Tool response
+    MCP Client-->>User: Display answer
+```
+
 ## Features
 
 - Authentication using APS 3-legged OAuth
