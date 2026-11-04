@@ -1,6 +1,6 @@
 import { dataManagementClient } from "./common.js";
 
-export const getProjectsToolFactory = ({}) => ({
+export const getProjectsToolFactory = () => ({
     name: "get-projects",
     config: {
         title: "Get projects",
@@ -8,7 +8,7 @@ export const getProjectsToolFactory = ({}) => ({
         annotations: { readOnlyHint: true },
         _meta: {},
     },
-    callback: async ({}) => {
+    callback: async () => {
         const hubs = await dataManagementClient.getHubs();
         const projects = await Promise.all((hubs.data || []).map(hub => dataManagementClient.getHubProjects(hub.id)));
         const output = {

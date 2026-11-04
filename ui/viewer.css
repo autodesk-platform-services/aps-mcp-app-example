@@ -11,3 +11,51 @@ body {
     width: 100%;
     height: 100%;
 }
+body {
+    background: var(--color-background-primary, transparent);
+    color: var(--color-text-primary, inherit);
+    font-family: var(--font-sans, sans-serif);
+}
+
+#display-mode-buttons {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 10;
+    display: flex;
+    gap: 4px;
+}
+
+#display-mode-buttons button {
+    width: 32px;
+    height: 32px;
+    padding: 6px;
+    border: 1px solid var(--color-border-primary, rgba(0, 0, 0, 0.2));
+    border-radius: var(--border-radius-md, 6px);
+    background: var(--color-background-secondary, rgba(255, 255, 255, 0.9));
+    color: var(--color-text-primary, #222);
+    cursor: pointer;
+}
+
+#display-mode-buttons button[hidden] {
+    display: none;
+}
+
+#display-mode-buttons button:hover,
+#display-mode-buttons button.active {
+    background: var(--color-background-tertiary, rgba(0, 0, 0, 0.1));
+}
+
+#display-mode-buttons svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+#display-mode-buttons svg .filled {
+    fill: currentColor;
+}

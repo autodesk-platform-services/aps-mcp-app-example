@@ -3,7 +3,7 @@ import { VIEWER_HTML, PUBLIC_ENDPOINT_URL } from "../config.js";
 
 export const VIEWER_RESOURCE_URI = "ui://preview-design/viewer.html";
 
-export const viewerResourceFactory = ({}) => ({
+export const viewerResourceFactory = () => ({
     name: "viewer",
     uri: VIEWER_RESOURCE_URI,
     config: {
