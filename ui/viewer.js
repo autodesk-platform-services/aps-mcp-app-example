@@ -6,7 +6,12 @@ const SELECTION_DEBOUNCE_MS = 300;
 const MAX_SELECTION_DETAILS = 25; // Limit how many elements we describe to the model
 const SELECTION_PROPS = ["name", "Category", "Type Name", "Family Name", "Material", "Level", "externalId"];
 
-const app = new App({ name: "Design Viewer", version: "0.0.1" });
+// Declare the display modes this app supports. The fullscreen/PiP buttons are still shown only for
+// modes the host lists in its own `availableDisplayModes` (VS Code, for example, offers only "inline").
+const app = new App(
+    { name: "Design Viewer", version: "0.0.1" },
+    { availableDisplayModes: ["inline", "fullscreen", "pip"] }
+);
 
 let viewer = null; // Autodesk.Viewing.GuiViewer3D instance
 let viewerReadyPromise = null; // Resolves with the viewer once initialized
