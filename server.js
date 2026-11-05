@@ -1,23 +1,23 @@
 import cors from "cors";
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { createMcpExpressApp } from "@modelcontextprotocol/sdk/server/express.js";
-import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
+import { McpServer } from "@modelcontextprotocol/server";
+import { createMcpExpressApp } from "@modelcontextprotocol/express";
+import { NodeStreamableHTTPServerTransport } from "@modelcontextprotocol/node";
 import { registerAppResource, registerAppTool } from "@modelcontextprotocol/ext-apps/server";
 import { PORT, ALLOWED_HOSTS } from "./config.js";
 import * as tools from "./tools/index.js";
 import * as resources from "./resources/index.js";
 
-function createMcpServer(options) {
+function createMcpServer() {
     const server = new McpServer({
         name: "My MCP App Server",
         version: "0.0.1",
     });
     for (const toolFactory of Object.values(tools)) {
-        const { name, config, callback } = toolFactory(options);
+        const { name, config, callback } = toolFactory();
         registerAppTool(server, name, config, callback);
     }
     for (const resourceFactory of Object.values(resources)) {
-        const { name, uri, config, callback } = resourceFactory(options);
+        const { name, uri, config, callback } = resourceFactory();
         registerAppResource(server, name, uri, config, callback);
     }
     return server;
@@ -29,11 +29,8 @@ const app = createMcpExpressApp({
 });
 app.use(cors());
 app.all("/mcp", async (req, res) => {
-    const options = {
-        derivativeFormat: req.query.format === "svf" ? "fallback" : "latest",
-    };
-    const server = createMcpServer(options);
-    const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
+    const server = createMcpServer();
+    const transport = new NodeStreamableHTTPServerTransport({ sessionIdGenerator: undefined });
     res.on("close", () => {
         transport.close().catch(() => { });
         server.close().catch(() => { });

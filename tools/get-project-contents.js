@@ -1,16 +1,16 @@
-import z from "zod";
+import * as z from "zod";
 import { dataManagementClient } from "./common.js";
 
-export const getProjectContentsToolFactory = ({}) => ({
+export const getProjectContentsToolFactory = () => ({
     name: "get-project-contents",
     config: {
         title: "Get project contents",
         description: "Retrieves top-level folders in a project or contents of a specified folder in Autodesk Construction Cloud (ACC).",
-        inputSchema: {
+        inputSchema: z.object({
             accountId: z.string().nonempty().describe("The ID of the account the project belongs to."),
             projectId: z.string().nonempty().describe("The ID of the project to get contents for."),
             folderId: z.string().optional().describe("The ID of the folder to get contents for. If not provided, top-level folders will be returned.")
-        },
+        }),
         annotations: { readOnlyHint: true },
         _meta: {},
     },

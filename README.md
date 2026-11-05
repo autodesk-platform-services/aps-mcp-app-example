@@ -8,10 +8,13 @@ https://github.com/user-attachments/assets/13b2bf54-9ff6-4ca5-a56c-227b4aed83ca
 
 - Authentication using [Secure Service Account API](https://aps.autodesk.com/en/docs/ssa/v1/developers_guide/overview/)
 - Support for UK+4 regions (automatically detected from ACC hubs)
-- Support for switching between SVF(1) and SVF2 viewing formats
-  - SVF2 used by default
-  - In order to load SVF(1), add `format=svf` query parameter to the MCP server URL, e.g., https://aps-mcp-app-example.autodesk.io/mcp?format=svf
-- IDs of elements selected in the viewer reported back to the LLM for further discussions (e.g., _Tell me more about this element_)
+- Designs viewed using the SVF2 format
+- Viewer access tokens fetched (and refreshed when they expire) through an app-only `get-viewer-token` tool, with a fallback token included in the `preview-design` result for hosts that don't support calling server tools from the app
+- Elements selected in the viewer (IDs, names, and key properties) reported back to the LLM for further discussions (e.g., _Tell me more about this element_)
+- "Ask AI about this element" context menu item that sends a follow-up message to the chat
+- App-side tools the LLM can call while the viewer is open: `select`, `isolate`, and `color`
+- Viewer theme and styling synced with the host (light/dark theme, colors, fonts)
+- Full screen and picture-in-picture toggles (when supported by the host)
 
 ## Live demo
 
