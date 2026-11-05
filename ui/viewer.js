@@ -162,7 +162,12 @@ async function getAccessToken(callback) {
 
 function initViewer(config) {
     if (!viewerReadyPromise) {
-        viewerReadyPromise = new Promise((resolve) => {
+        viewerReadyPromise = new Promise((resolve, reject) => {
+            // Viewer v8 runs only in a secure context (HTTPS or http://localhost)
+            if (!window.isSecureContext) {
+                reject(new Error("The viewer requires a secure context (HTTPS or http://localhost)."));
+                return;
+            }
             Autodesk.Viewing.Initializer({ ...config, getAccessToken }, function () {
                 viewer = new Autodesk.Viewing.GuiViewer3D(document.getElementById("viewer"));
                 viewer.start();
@@ -206,12 +211,8 @@ async function loadModel(urn, name, config) {
     }
 }
 
-function getBulkProperties(model, dbIds, propFilter) {
-    return new Promise((resolve, reject) => model.getBulkProperties(dbIds, { propFilter }, resolve, reject));
-}
-
 async function describeElements(dbIds) {
-    const results = await getBulkProperties(viewer.model, dbIds.slice(0, MAX_SELECTION_DETAILS), SELECTION_PROPS);
+    const results = await viewer.model.getBulkPropertiesAsync(dbIds.slice(0, MAX_SELECTION_DETAILS), { propFilter: SELECTION_PROPS });
     return results.map((result) => {
         const props = Object.fromEntries(result.properties.map((prop) => [prop.displayName, prop.displayValue]));
         return { dbId: result.dbId, name: result.name, externalId: result.externalId, properties: props };
@@ -362,7 +363,7 @@ app.registerTool(
             return textResult("Removed all colors.", { colored: [] });
         }
         const [r, g, b] = [1, 3, 5].map((i) => parseInt(color.slice(i, i + 2), 16) / 255);
-        const vec = new THREE.Vector4(r, g, b, 1);
+        const vec = new Autodesk.Viewing.Math.Vector4(r, g, b, 1);
         for (const dbId of dbIds) {
             viewer.setThemingColor(dbId, vec, model, true);
         }
