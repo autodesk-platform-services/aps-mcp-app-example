@@ -7,9 +7,20 @@ body {
     overflow: hidden;
 }
 
+/*
+ * The viewer's own container is absolutely positioned, so it doesn't contribute to the content
+ * height that the MCP Apps SDK reports to the host. Give the container an explicit height inline,
+ * and fill the host-provided viewport in fullscreen and picture-in-picture.
+ */
 #viewer {
+    position: relative;
     width: 100%;
-    height: 100%;
+    height: 500px;
+}
+
+body[data-display-mode="fullscreen"] #viewer,
+body[data-display-mode="pip"] #viewer {
+    height: 100vh;
 }
 body {
     background: var(--color-background-primary, transparent);
